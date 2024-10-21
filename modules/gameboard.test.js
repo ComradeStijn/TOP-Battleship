@@ -21,7 +21,7 @@ describe("Gameboard initializing", () => {
     const expectedResult = {
       ship: null,
       filled: false,
-      hit: false
+      hit: false,
     };
     expect(testBoard.getStatusFromCoordinate(0, 0)).toEqual(expectedResult);
   });
@@ -96,4 +96,24 @@ describe("Placing ships vertically", () => {
     expect(testBoard.placeShip(8, 2, 2, "y")).toBe(true);
     expect(testBoard.placeShip(8, 3, 3, "y")).toBe(false);
   });
+});
+
+describe("Attack functionality", () => {
+  let testBoard;
+  beforeEach(() => {
+    testBoard = new Gameboard();
+  });
+
+  test("receiveAttack changes cell's hit property to true", () => {
+    expect(testBoard.receiveAttack(0, 0)).toBe(true);
+    expect(testBoard.getStatusFromCoordinate(0, 0).hit).toBe(true);
+  });
+
+  test("receiveAttack returns false and does nothingnwhen hit property is already true", () => {
+    testBoard.changeValueAtCoordinate(0, 0, { hit: true });
+    expect(testBoard.receiveAttack(0, 0)).toBe(false);
+    expect(testBoard.getStatusFromCoordinate(0, 0).hit).toBe(true);
+  });
+
+
 });

@@ -7,7 +7,7 @@ export class Gameboard {
     const emptyCell = () => ({
       ship: null,
       filled: false,
-      hit: false
+      hit: false,
     });
     this.gameBoard = Array(ROWS)
       .fill()
@@ -74,5 +74,13 @@ export class Gameboard {
     } else {
       throw new Error("Error with checkLengthInvalid function in gameboard.js");
     }
+  }
+
+  receiveAttack(x, y) {
+    if (this.gameBoard[x][y].hit === true) {
+      return false;
+    }
+    this.gameBoard[x][y].hit = true;
+    return true;
   }
 }
