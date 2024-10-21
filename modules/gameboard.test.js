@@ -132,4 +132,32 @@ describe("Attack functionality", () => {
     const result = testBoard.getStatusFromCoordinate(0, 0).ship.getHits();
     expect(result).toBe(1);
   });
+
+  test("Ship gets sunk when hits equals length", () => {
+    testBoard.placeShip(0, 0, 2, "x");
+    testBoard.receiveAttack(0, 0);
+    expect(testBoard.getStatusFromCoordinate(0, 0).ship.isSunk()).toBe(false);
+    testBoard.receiveAttack(0, 1);
+    expect(testBoard.getStatusFromCoordinate(0, 0).ship.isSunk()).toBe(true);
+  });
+});
+
+describe("All ships sunk", () => {
+  let testBoard;
+  beforeEach(() => {
+    testBoard = new Gameboard();
+  });
+  afterEach(() => {
+    testBoard = null;
+  });
+
+  test("Gameboard variable shows all ship sunk status correctly", () => {
+    testBoard.placeShip(0, 0, 1, "x");
+    testBoard.placeShip(1, 1, 1, "x");
+    expect(testBoard.gameEnd()).toBe(false);
+    testBoard.receiveAttack(0, 0);
+    expect(testBoard.gameEnd()).toBe(false);
+    testBoard.receiveAttack(1, 1);
+    expect(testBoard.gameEnd()).toBe(true);
+  });
 });

@@ -12,6 +12,7 @@ export class Gameboard {
     this.gameBoard = Array(ROWS)
       .fill()
       .map(() => Array(COLUMNS).fill().map(emptyCell));
+    this.ships = [];
   }
 
   changeValueAtCoordinate(x, y, value) {
@@ -25,12 +26,14 @@ export class Gameboard {
   placeShip(x, y, length, axis) {
     if (
       this.checkLengthInvalid(x, y, length, axis) ||
-      this.checkShipExists(x, y, length, axis)
+      this.checkShipExists(x, y, length, axis) ||
+      !(axis == "x" || axis == "y")
     ) {
       return false;
     }
 
     const ship = new Ship(length);
+    this.ships.push(ship);
     if (axis === "x") {
       for (let i = 0; i < length; i++) {
         this.gameBoard[x][y + i].ship = ship;
@@ -43,7 +46,7 @@ export class Gameboard {
         this.gameBoard[x + i][y].filled = true;
       }
       return true;
-    } else return false;
+    }
   }
 
   checkShipExists(x, y, length, axis) {
@@ -77,11 +80,26 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    if (this.gameBoard[x][y].hit === true || this.gameBoard[x][y].filled === false) {
+    if (
+      this.gameBoard[x][y].hit === true ||
+      this.gameBoard[x][y].filled === false
+    ) {
       return false;
     }
     this.gameBoard[x][y].hit = true;
-    this.gameBoard[x][y]['ship'].hit();
+    this.gameBoard[x][y]["ship"].hit();
     return true;
   }
+
+  gameEnd() {
+    let status = true;
+    for (const ship of this.ships) {
+      if (!ship.isSunk()) {
+        status = false;
+        break
+      }
+    }
+    return status;
+  }
 }
+
