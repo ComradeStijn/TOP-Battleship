@@ -77,10 +77,11 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    if (this.gameBoard[x][y].hit === true) {
+    if (this.gameBoard[x][y].hit === true || this.gameBoard[x][y].filled === false) {
       return false;
     }
     this.gameBoard[x][y].hit = true;
+    this.gameBoard[x][y]['ship'].hit();
     return true;
   }
 }

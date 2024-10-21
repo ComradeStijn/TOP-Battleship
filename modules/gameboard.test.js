@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from "@jest/globals";
+import { describe, test, expect, beforeEach, afterEach } from "@jest/globals";
 import { Gameboard } from "./gameboard";
 import { Ship } from "./ship";
 
@@ -42,6 +42,12 @@ describe("Placing ships horizontally", () => {
   test("Placed ship has correctly initialised its length", () => {
     testBoard.placeShip(0, 0, 3, "x");
     expect(testBoard.getStatusFromCoordinate(0, 0).ship.getLength()).toBe(3);
+  });
+
+  test("Placed ship has filled property on gameboard", () => {
+    testBoard.placeShip(0, 0, 2, "x");
+    expect(testBoard.getStatusFromCoordinate(0, 0).filled).toBe(true);
+    expect(testBoard.getStatusFromCoordinate(0, 1).filled).toBe(true);
   });
 
   test("Placing ship horizontally works", () => {
@@ -104,7 +110,12 @@ describe("Attack functionality", () => {
     testBoard = new Gameboard();
   });
 
+  afterEach(() => {
+    testBoard = null;
+  });
+
   test("receiveAttack changes cell's hit property to true", () => {
+    testBoard.placeShip(0, 0, 1, "x");
     expect(testBoard.receiveAttack(0, 0)).toBe(true);
     expect(testBoard.getStatusFromCoordinate(0, 0).hit).toBe(true);
   });
@@ -115,5 +126,10 @@ describe("Attack functionality", () => {
     expect(testBoard.getStatusFromCoordinate(0, 0).hit).toBe(true);
   });
 
-
+  test("Attack adds hit to ship", () => {
+    testBoard.placeShip(0, 0, 1, "x");
+    testBoard.receiveAttack(0, 0);
+    const result = testBoard.getStatusFromCoordinate(0, 0).ship.getHits();
+    expect(result).toBe(1);
+  });
 });
