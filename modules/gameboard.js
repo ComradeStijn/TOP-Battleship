@@ -7,6 +7,7 @@ export class Gameboard {
     const emptyCell = () => ({
       ship: null,
       filled: false,
+      hit: false
     });
     this.gameBoard = Array(ROWS)
       .fill()

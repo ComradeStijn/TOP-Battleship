@@ -21,6 +21,7 @@ describe("Gameboard initializing", () => {
     const expectedResult = {
       ship: null,
       filled: false,
+      hit: false
     };
     expect(testBoard.getStatusFromCoordinate(0, 0)).toEqual(expectedResult);
   });
