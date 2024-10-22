@@ -59,7 +59,7 @@ export class Gameboard {
       return false;
     } else if (axis === "y") {
       for (let i = 0; i < length; i++) {
-        if (this.gameBoard[x][y + i].filled === true) {
+        if (this.gameBoard[x + i][y].filled === true) {
           return true;
         }
       }

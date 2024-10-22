@@ -90,7 +90,7 @@ describe("Placing ships vertically", () => {
   });
 
   test("If ship already present, do not place ship", () => {
-    testBoard.changeValueAtCoordinate(0, 1, { filled: true });
+    testBoard.changeValueAtCoordinate(1, 0, { filled: true });
     testBoard.placeShip(0, 0, 3, "y");
     expect(testBoard.getStatusFromCoordinate(0, 0).filled).toBe(false);
     expect(testBoard.placeShip(0, 0, 3, "y")).toBe(false);
